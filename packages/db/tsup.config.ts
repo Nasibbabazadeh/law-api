@@ -1,10 +1,11 @@
 import { defineConfig } from 'tsup';
 
-export default defineConfig({
+// Don't wipe dist/ in watch mode: the API's dev compiler reads it while tsup rebuilds.
+export default defineConfig((options) => ({
   entry: ['src/index.ts'],
   format: ['esm'],
   dts: true,
   sourcemap: true,
-  clean: true,
+  clean: !options.watch,
   target: 'node22',
-});
+}));
