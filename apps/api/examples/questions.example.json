@@ -1,0 +1,13 @@
+[
+  {
+    "id": "d1000000-0000-4000-8000-000000000201",
+    "fieldSlug": "cinayet-huququ",
+    "topicSlug": "cinayet-mesuliyyeti-yasi",
+    "type": "true_false",
+    "prompt": "Psixi xəstəlik səbəbindən öz hərəkətlərini idarə edə bilməyən şəxs anlaqsız sayılır.",
+    "correctAnswer": "true",
+    "explanation": "Bu, anlaqsızlığın iradi meyarıdır.",
+    "difficulty": 2,
+    "articles": [{ "code": "CM", "number": "21" }]
+  }
+]
