@@ -71,6 +71,16 @@ describe('auth', () => {
     expect(res.headers['set-cookie']).toBeDefined();
   });
 
+  it('accepts a password reset request (the link is logged until email is wired)', async () => {
+    const user = await signUp(ctx);
+    const res = await ctx
+      .http()
+      .post('/v1/auth/request-password-reset')
+      .set('origin', 'http://localhost:3000')
+      .send({ email: user.email, redirectTo: 'http://localhost:3000/reset' });
+    expect(res.status).toBe(200);
+  });
+
   it('returns the error envelope without a session', async () => {
     const res = await ctx.http().get('/v1/session');
     expect(res.status).toBe(401);
