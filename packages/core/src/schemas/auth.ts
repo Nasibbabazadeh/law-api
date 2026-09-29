@@ -26,19 +26,15 @@ export const SessionUserSchema = z.object({
 });
 export type SessionUser = z.infer<typeof SessionUserSchema>;
 
-export const SessionResponseSchema = z
-  .object({
-    user: SessionUserSchema,
-    session: z.object({ id: z.string(), expiresAt: IsoDateTimeSchema }),
-  })
-  .meta({ id: 'SessionResponse' });
+export const SessionResponseSchema = z.object({
+  user: SessionUserSchema,
+  session: z.object({ id: z.string(), expiresAt: IsoDateTimeSchema }),
+});
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;
 
-export const HealthSchema = z
-  .object({
-    status: z.enum(['ok', 'degraded']),
-    db: z.enum(['up', 'down']),
-    time: IsoDateTimeSchema,
-  })
-  .meta({ id: 'Health' });
+export const HealthSchema = z.object({
+  status: z.enum(['ok', 'degraded']),
+  db: z.enum(['up', 'down']),
+  time: IsoDateTimeSchema,
+});
 export type Health = z.infer<typeof HealthSchema>;

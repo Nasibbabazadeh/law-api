@@ -1,11 +1,7 @@
 {
   "extends": "@huquq/tsconfig/nest.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "noEmit": false,
-    "declaration": false,
-    "incremental": false
+    "noEmit": true
   },
-  "include": ["src"]
+  "include": ["src", "test", "vitest.config.ts"]
 }

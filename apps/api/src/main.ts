@@ -1,10 +1,9 @@
 import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module.js';
+import { createApp } from './app.factory.js';
+import { loadConfig } from './common/config.js';
+import { loadDotEnv } from './common/env.js';
 
-async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-
-void bootstrap();
+loadDotEnv();
+const config = loadConfig();
+const app = await createApp(config);
+await app.listen(config.PORT);

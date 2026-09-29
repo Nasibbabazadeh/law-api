@@ -10,7 +10,7 @@
     "start": "node dist/main.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "seed": "tsx src/scripts/seed.ts",
     "import:questions": "tsx src/scripts/import-questions.ts"
   },

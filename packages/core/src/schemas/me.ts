@@ -36,23 +36,21 @@ export const StatsSchema = z.object({
   perField: z.array(FieldStatsSchema),
 });
 
-export const MeSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    email: z.email(),
-    emailVerified: z.boolean(),
-    image: z.string().nullable(),
-    role: UserRoleSchema,
-    interests: z.array(z.string()),
-    locale: z.string(),
-    timezone: z.string(),
-    createdAt: IsoDateTimeSchema,
-    today: StudyDaySchema,
-    streak: StreakSchema,
-    stats: StatsSchema,
-  })
-  .meta({ id: 'Me' });
+export const MeSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.email(),
+  emailVerified: z.boolean(),
+  image: z.string().nullable(),
+  role: UserRoleSchema,
+  interests: z.array(z.string()),
+  locale: z.string(),
+  timezone: z.string(),
+  createdAt: IsoDateTimeSchema,
+  today: StudyDaySchema,
+  streak: StreakSchema,
+  stats: StatsSchema,
+});
 export type Me = z.infer<typeof MeSchema>;
 
 export const MePatchSchema = z
@@ -63,6 +61,5 @@ export const MePatchSchema = z
   .strict()
   .refine((patch) => patch.interests !== undefined || patch.timezone !== undefined, {
     message: 'Provide at least one of: interests, timezone',
-  })
-  .meta({ id: 'MePatch' });
+  });
 export type MePatch = z.infer<typeof MePatchSchema>;

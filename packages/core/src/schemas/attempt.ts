@@ -22,9 +22,9 @@ export const AttemptInputSchema = z
 export type AttemptInput = z.infer<typeof AttemptInputSchema>;
 
 /** Documented request body. Rows are validated one by one, so a bad row never fails the batch. */
-export const AttemptBatchSchema = z
-  .object({ attempts: z.array(AttemptInputSchema).min(1).max(MAX_ATTEMPT_BATCH) })
-  .meta({ id: 'AttemptBatch' });
+export const AttemptBatchSchema = z.object({
+  attempts: z.array(AttemptInputSchema).min(1).max(MAX_ATTEMPT_BATCH),
+});
 export type AttemptBatch = z.infer<typeof AttemptBatchSchema>;
 
 /** Envelope check applied before per-row validation. */
@@ -49,14 +49,12 @@ export const AttemptRowResultSchema = z
   .meta({ id: 'AttemptRowResult' });
 export type AttemptRowResult = z.infer<typeof AttemptRowResultSchema>;
 
-export const AttemptBatchResultSchema = z
-  .object({
-    results: z.array(AttemptRowResultSchema),
-    summary: z.object({
-      accepted: z.number().int(),
-      duplicate: z.number().int(),
-      invalid: z.number().int(),
-    }),
-  })
-  .meta({ id: 'AttemptBatchResult' });
+export const AttemptBatchResultSchema = z.object({
+  results: z.array(AttemptRowResultSchema),
+  summary: z.object({
+    accepted: z.number().int(),
+    duplicate: z.number().int(),
+    invalid: z.number().int(),
+  }),
+});
 export type AttemptBatchResult = z.infer<typeof AttemptBatchResultSchema>;

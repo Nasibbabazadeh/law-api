@@ -12,7 +12,7 @@ export const FieldSchema = z
   .meta({ id: 'Field' });
 export type Field = z.infer<typeof FieldSchema>;
 
-export const FieldListSchema = z.object({ items: z.array(FieldSchema) }).meta({ id: 'FieldList' });
+export const FieldListSchema = z.object({ items: z.array(FieldSchema) });
 export type FieldList = z.infer<typeof FieldListSchema>;
 
 export const FieldRefSchema = FieldSchema.pick({ id: true, slug: true, name: true });
@@ -29,9 +29,7 @@ export const TopicSummarySchema = z
   .meta({ id: 'TopicSummary' });
 export type TopicSummary = z.infer<typeof TopicSummarySchema>;
 
-export const TopicListSchema = z
-  .object({ items: z.array(TopicSummarySchema) })
-  .meta({ id: 'TopicList' });
+export const TopicListSchema = z.object({ items: z.array(TopicSummarySchema) });
 export type TopicList = z.infer<typeof TopicListSchema>;
 
 export const LawArticleRefSchema = z
@@ -50,7 +48,7 @@ export const TopicDetailSchema = TopicSummarySchema.extend({
   field: FieldRefSchema,
   /** Official sources: the articles referenced by the topic's questions. */
   articles: z.array(LawArticleRefSchema),
-}).meta({ id: 'TopicDetail' });
+});
 export type TopicDetail = z.infer<typeof TopicDetailSchema>;
 
 export const QuestionSchema = z
@@ -68,7 +66,5 @@ export const QuestionSchema = z
   .meta({ id: 'Question' });
 export type Question = z.infer<typeof QuestionSchema>;
 
-export const QuestionListSchema = z
-  .object({ items: z.array(QuestionSchema) })
-  .meta({ id: 'QuestionList' });
+export const QuestionListSchema = z.object({ items: z.array(QuestionSchema) });
 export type QuestionList = z.infer<typeof QuestionListSchema>;
