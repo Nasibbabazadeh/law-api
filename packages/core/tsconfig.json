@@ -1,0 +1,8 @@
+{
+  "extends": "@huquq/tsconfig/library.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": []
+  },
+  "include": ["src", "test"]
+}
