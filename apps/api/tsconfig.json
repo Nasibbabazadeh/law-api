@@ -1,0 +1,7 @@
+{
+  "extends": "@huquq/tsconfig/nest.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["src", "test", "vitest.config.ts"]
+}

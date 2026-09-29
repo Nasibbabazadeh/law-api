@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: huquq_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d huquq_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      # Only the test database exists in CI; DATABASE_URL must still be set and differ from it.
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/huquq
+      DATABASE_URL_TEST: postgres://postgres:postgres@localhost:5432/huquq_test
+      BETTER_AUTH_SECRET: ci-only-secret-0123456789abcdefghijklmnop
+      BETTER_AUTH_URL: http://localhost:3000
+      # Let Corepack fetch the pinned pnpm without an interactive prompt.
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      # pnpm comes from Corepack (bundled with Node), pinned by "packageManager" in package.json,
+      # so the workflow only uses GitHub-owned actions.
+      - run: corepack enable
+      - id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-store-${{ runner.os }}-
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm exec prettier --check .
+      - run: pnpm test

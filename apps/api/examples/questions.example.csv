@@ -1,0 +1,3 @@
+id,fieldSlug,topicSlug,type,prompt,options,correctAnswer,explanation,difficulty,articles
+d1000000-0000-4000-8000-000000000101,cinayet-huququ,cinayet-mesuliyyeti-yasi,single_choice,"14 yaşlı şəxs hansı əmələ görə cinayət məsuliyyətinə cəlb edilə bilər?","A:Xuliqanlıq (ağırlaşdırıcı hallar olmadan)|B:Qəsdən adam öldürmə|C:Vergidən yayınma|D:Rüşvət vermə",B,"Qəsdən adam öldürmə 20.2-ci maddədə sadalanır.",2,CM:20
+,cinayet-huququ,cinayet-mesuliyyeti-yasi,true_false,"16 yaşı tamam olmuş anlaqlı şəxs cinayət məsuliyyətinə cəlb edilə bilər.",,true,,1,CM:20;CM:19@2024-01-01
