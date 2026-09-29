@@ -16,3 +16,8 @@ export function createDb(connectionString: string, options: { max?: number } = {
   const db = drizzle(pool, { schema, casing: 'snake_case' });
   return { db, pool };
 }
+
+/** A Drizzle transaction handle (the argument of `db.transaction(async (tx) => ...)`). */
+export type Transaction = Parameters<Parameters<Database['transaction']>[0]>[0];
+/** Anything that can run queries: the pooled client or a transaction. */
+export type Executor = Database | Transaction;

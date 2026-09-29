@@ -1,5 +1,5 @@
 import { addDays, type StudyDay } from '../time/study-day';
-import { isDue, isInQueue, type ReviewState } from './ladder';
+import { isDue, isInQueue, type QueueEntry } from './ladder';
 
 export interface UpcomingCount {
   day: StudyDay;
@@ -7,16 +7,13 @@ export interface UpcomingCount {
 }
 
 /** Items due today or overdue. */
-export function dueToday<T extends Pick<ReviewState, 'masteredAt' | 'dueDay'>>(
-  items: readonly T[],
-  today: StudyDay,
-): T[] {
+export function dueToday<T extends QueueEntry>(items: readonly T[], today: StudyDay): T[] {
   return items.filter((item) => isDue(item, today));
 }
 
 /** Number of queued items falling due on each of the next `horizon` days (tomorrow first). */
 export function upcomingCounts(
-  items: readonly Pick<ReviewState, 'masteredAt' | 'dueDay'>[],
+  items: readonly QueueEntry[],
   today: StudyDay,
   horizon = 7,
 ): UpcomingCount[] {

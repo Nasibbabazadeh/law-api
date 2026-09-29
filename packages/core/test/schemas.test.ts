@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   AttemptInputSchema,
+  answeredAtProblem,
   MePatchSchema,
   QuestionImportRowSchema,
   csvRecordToImportInput,
@@ -147,5 +148,19 @@ describe('gradeAnswer', () => {
     expect(gradeAnswer(trueFalse, 'FALSE')).toEqual({ valid: true, isCorrect: true });
     expect(gradeAnswer(trueFalse, 'true')).toEqual({ valid: true, isCorrect: false });
     expect(gradeAnswer(trueFalse, 'yes').valid).toBe(false);
+  });
+});
+
+describe('answeredAtProblem', () => {
+  const now = new Date('2026-09-29T12:00:00Z');
+
+  it('accepts past answers and small clock skew', () => {
+    expect(answeredAtProblem(new Date('2026-09-20T12:00:00Z'), now)).toBeNull();
+    expect(answeredAtProblem(new Date('2026-09-29T12:04:00Z'), now)).toBeNull();
+  });
+
+  it('rejects answers from the future or before the app existed', () => {
+    expect(answeredAtProblem(new Date('2026-09-29T12:06:00Z'), now)).toMatch(/future/);
+    expect(answeredAtProblem(new Date('2020-01-01T00:00:00Z'), now)).toMatch(/past/);
   });
 });

@@ -84,12 +84,18 @@ export function applyAnswer(state: ReviewState | null, answer: LadderAnswer): Re
   };
 }
 
+/** The fields queue checks need; `masteredAt` may be an ISO string or a Date (from a DB row). */
+export interface QueueEntry {
+  masteredAt: string | Date | null;
+  dueDay: StudyDay;
+}
+
 /** A question is in the review queue while it is not mastered. */
-export function isInQueue(state: Pick<ReviewState, 'masteredAt'>): boolean {
+export function isInQueue(state: Pick<QueueEntry, 'masteredAt'>): boolean {
   return state.masteredAt === null;
 }
 
 /** Due on `today` (or overdue). */
-export function isDue(state: Pick<ReviewState, 'masteredAt' | 'dueDay'>, today: StudyDay): boolean {
+export function isDue(state: QueueEntry, today: StudyDay): boolean {
   return isInQueue(state) && state.dueDay <= today;
 }

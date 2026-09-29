@@ -10,6 +10,7 @@ import type { Response } from 'express';
 import { ZodValidationException } from 'nestjs-zod';
 import type { ErrorCode, ErrorResponse } from '@huquq/core';
 import { ApiException } from './api-exception.js';
+import { zodIssues } from './zod-issues.js';
 
 const CODE_BY_STATUS: Partial<Record<number, ErrorCode>> = {
   [HttpStatus.BAD_REQUEST]: 'BAD_REQUEST',
@@ -32,24 +33,6 @@ const DEFAULT_MESSAGES: Record<ErrorCode, string> = {
   TOO_MANY_REQUESTS: 'Çox sayda sorğu göndərildi, bir az sonra yenidən cəhd edin',
   INTERNAL_ERROR: 'Gözlənilməz xəta baş verdi',
 };
-
-interface IssueLike {
-  path: readonly PropertyKey[];
-  message: string;
-  code?: string;
-}
-
-/** Flatten zod issues (checked structurally, so any zod instance works). */
-export function zodIssues(error: unknown): { path: string; message: string; code?: string }[] {
-  if (typeof error !== 'object' || error === null || !('issues' in error)) return [];
-  const { issues } = error;
-  if (!Array.isArray(issues)) return [];
-  return (issues as IssueLike[]).map((issue) => ({
-    path: issue.path.map(String).join('.'),
-    message: issue.message,
-    ...(issue.code ? { code: issue.code } : {}),
-  }));
-}
 
 function clientErrorStatus(error: unknown): number | null {
   if (typeof error !== 'object' || error === null) return null;

@@ -11,6 +11,9 @@ export * from './review/queue';
 export * from './review/streak';
 export * from './review/stats';
 
+// Attempts
+export * from './attempts/rules';
+
 // Questions
 export * from './questions/grade';
 
